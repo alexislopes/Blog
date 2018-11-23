@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Gradle : br.com.blogaog : blogao-1.0-SNAPSHOT.war">
+    <output-path>$PROJECT_DIR$/blogao/build/libs</output-path>
+    <properties id="gradle-properties">
+      <options external-project-path="$PROJECT_DIR$/blogao" />
+    </properties>
+    <root id="archive" name="blogao-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Gradle : br.com.blogaog : blogao-1.0-SNAPSHOT.war (exploded)" />
+    </root>
+  </artifact>
+</component>

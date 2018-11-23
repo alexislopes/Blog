@@ -1,0 +1,18 @@
+nome-projeto
+    - .gradle
+    build
+    gradle
+    src
+        main
+            java
+            webapp
+            meta-inf
+            web-inf
+
+bloco plugins: id 'java'
+               id 'war'
+               id 'org.gretty' version '2.2.0'
+
+no bloco repositório colocar: jCenter()
+
+em dependencias: ProvidedCompile 'javax.servlet:javax.servlet-api:3.1.0'
