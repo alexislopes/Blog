@@ -1,11 +1,14 @@
 package controle.servlet;
 
-import controle.api.ServicoUsuario;
-import controle.servico.ServicoUsuarioImplementado;
+//import controle.api.ServicoUsuario;
+//import controle.servico.ServicoUsuarioImplementado;
+
+import jpa.UsuarioJPA;
 import modelo.Usuario;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,27 +16,32 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
+@WebServlet(name = "Validador", urlPatterns = {"validador"}, loadOnStartup = 1)
 public class Validador extends HttpServlet {
 
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ServletContext sc = req.getServletContext();
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ServletContext sc = request.getServletContext();
+
+        request.setCharacterEncoding("UTF-8");
+
+        String nomeUsuario = request.getParameter("nomeUsuario");
+        String senha = request.getParameter("senha");
+        UsuarioJPA servicoUsuario = new Usuario();
+
+        Usuario achado;
         try {
-            req.setCharacterEncoding("UTF-8");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        String nomeUsuario = req.getParameter("nomeUsuario");
-        String senha = req.getParameter("senha");
-        ServicoUsuario sUsuario = new ServicoUsuarioImplementado();
-        try {
-            Usuario uBD = sUsuario.achaUsuarioPorLogin(nomeUsuario);
-            if (uBD != null && uBD.getSenha().equals(senha) && uBD.getLogin().equals(nomeUsuario)) {
-                req.setAttribute("usuarioLogado", uBD);
-                sc.getRequestDispatcher("/jsp//home.jsp").forward(req, resp);
+
+            achado = servicoUsuario.achaUsuarioPorLogin(nomeUsuario);
+
+
+            if (achado != null && achado.getSenha().equals(senha) && achado.getLogin().equals(nomeUsuario)) {
+                request.setAttribute("usuarioLogado", achado);
+                doGet(request, response);
             } else {
-                req.setAttribute("falhaAutenticação", true);
-                sc.getRequestDispatcher("/login.jsp").forward(req, resp);
+                request.setAttribute("falhaAutenticação", true);
+                sc.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
             }
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,6 +49,13 @@ public class Validador extends HttpServlet {
             e.printStackTrace();
         }
 
+
+
+    }
+
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletContext sc = req.getServletContext();
+        sc.getRequestDispatcher("/jsp/home.jsp").forward(req, resp);
 
     }
 }

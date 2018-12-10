@@ -1,6 +1,6 @@
-package dao.core;
+package dao;
 
-import dao.api.UsuarioPapelDAO;
+import jpa.UsuarioPapelJPA;
 import modelo.Papel;
 import modelo.Usuario;
 
@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioPapelDAOMySQL implements UsuarioPapelDAO {
+public class UsuarioPapelDAOMySQL implements UsuarioPapelJPA {
 
     Connection conexao;
 

@@ -1,15 +1,14 @@
-package dao.core;
+package dao;
 
-import dao.api.UsuarioDAO;
-import dao.api.UsuarioPapelDAO;
+import jpa.UsuarioJPA;
+import jpa.UsuarioPapelJPA;
 import modelo.Papel;
-import dao.api.PapelDAO;
+import jpa.PapelJPA;
 import modelo.Usuario;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 
 import java.sql.*;
 import java.sql.Connection;
@@ -17,7 +16,7 @@ import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioDAOMySQL implements UsuarioDAO {
+public class UsuarioDAOMySQL implements UsuarioJPA {
 
     private Connection conexao;
 
@@ -45,7 +44,7 @@ public class UsuarioDAOMySQL implements UsuarioDAO {
 
     @Override
     public Usuario insereUsuario(Usuario usuario) throws SQLException, ClassNotFoundException {
-        /*String query = "INSERT INTO usuario (email, login, nome, senha) VALUES (?,?,?,?);";
+        String query = "INSERT INTO usuario (email, login, nome, senha) VALUES (?,?,?,?);";
         java.sql.PreparedStatement statement = conexao.prepareStatement(query);
 
         statement.setString(1, usuario.getEmail());
@@ -57,21 +56,8 @@ public class UsuarioDAOMySQL implements UsuarioDAO {
         statement.close();
 
         Usuario novo = achaUsuarioPorLogin(usuario.getLogin());
-        UsuarioPapelDAO usuarioPapelDAO = new UsuarioPapelDAOMySQL();
-        usuarioPapelDAO.inserePapelUsuario(novo.getId());*/
-
-        manager.getTransaction().begin();
-        manager.persist(usuario);
-        manager.getTransaction().commit();
-
-        System.out.println("ID do usuario: " + usuario.getId());
-
-        UsuarioPapelDAO usuarioPapelDAO = new UsuarioPapelDAOMySQL();
-        usuarioPapelDAO.inserePapelUsuario(usuario.getId());
-
-        manager.close();
-
-
+        UsuarioPapelJPA usuarioPapelJPA = new UsuarioPapelDAOMySQL();
+        usuarioPapelJPA.inserePapelUsuario(novo.getId());
 
         return usuario;
     }
@@ -79,8 +65,8 @@ public class UsuarioDAOMySQL implements UsuarioDAO {
     @Override
     public Usuario achaUsuarioPorLogin(String nomeUsuario) throws SQLException, ClassNotFoundException {
 
-        PapelDAO papelDAO = new PapelDAOMySQL();
-        UsuarioPapelDAO usuarioPapelDAO = new UsuarioPapelDAOMySQL();
+        PapelJPA papelJPA = new PapelDAOMySQL();
+        UsuarioPapelJPA usuarioPapelJPA = new UsuarioPapelDAOMySQL();
         List<Long> idPapeis = new ArrayList<>();
         List<Papel> papeis = new ArrayList<>();
 
@@ -101,9 +87,9 @@ public class UsuarioDAOMySQL implements UsuarioDAO {
             achado.setLogin(rs.getString(3));
             achado.setEmail(rs.getString(2));
 
-            idPapeis = usuarioPapelDAO.achaPorUsuario(achado);
+            idPapeis = usuarioPapelJPA.achaPorUsuario(achado);
             for(Long idPapel: idPapeis){
-                papeis.add(papelDAO.achaPorId(idPapel));
+                papeis.add(papelJPA.achaPorId(idPapel));
             }
 
             achado.setPapeis(papeis);

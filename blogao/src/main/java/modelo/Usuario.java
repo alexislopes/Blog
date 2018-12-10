@@ -1,10 +1,10 @@
 package modelo;
 
-import dao.api.PapelDAO;
-import dao.api.UsuarioDAO;
-import dao.api.UsuarioPapelDAO;
-import dao.core.PapelDAOMySQL;
-import dao.core.UsuarioPapelDAOMySQL;
+import jpa.PapelJPA;
+import jpa.UsuarioJPA;
+import jpa.UsuarioPapelJPA;
+import dao.PapelDAOMySQL;
+import dao.UsuarioPapelDAOMySQL;
 
 import javax.persistence.*;
 import java.sql.SQLException;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Usuario implements UsuarioDAO {
+public class Usuario implements UsuarioJPA {
 
     @Id
     @GeneratedValue()
@@ -26,23 +26,16 @@ public class Usuario implements UsuarioDAO {
     @Transient
     private List<Papel> papeis;
 
-    public Usuario(){}
-
-    public List<Papel> getPapeis() {
-        return papeis;
-    }
-
     @Transient
     private EntityManagerFactory factory;
 
     @Transient
     private EntityManager manager;
 
-    public void setPapeis(List<Papel> papeis) {
-        this.papeis = papeis;
+    public Usuario() {
     }
 
-    public Usuario(Long id, String nome, String senha, String login, String email, List<Papel> papeis){
+    public Usuario(Long id, String nome, String senha, String login, String email, List<Papel> papeis) {
         this.id = id;
         this.nome = nome;
         this.senha = senha;
@@ -51,7 +44,7 @@ public class Usuario implements UsuarioDAO {
         this.papeis = papeis;
     }
 
-    public Usuario(Long id, String nome, String senha, String login, String email){
+    public Usuario(Long id, String nome, String senha, String login, String email) {
         this.id = id;
         this.nome = nome;
         this.senha = senha;
@@ -59,7 +52,7 @@ public class Usuario implements UsuarioDAO {
         this.email = email;
     }
 
-    public Usuario(String nome, String senha){
+    public Usuario(String nome, String senha) {
         this.nome = nome;
         this.senha = senha;
     }
@@ -111,6 +104,19 @@ public class Usuario implements UsuarioDAO {
         this.id = id;
     }
 
+    public void setPapeis(List<Papel> papeis) {
+        this.papeis = papeis;
+    }
+
+    public List<Papel> getPapeis() {
+        return papeis;
+    }
+
+    public void iniciaManager(){
+        this.factory = Persistence.createEntityManagerFactory("usuario");
+        this.manager = factory.createEntityManager();
+    }
+
     @Override
     public String toString() {
         return "modelo.Usuario{" + "id=" + id + ", nome='" + nome + '\'' + ", email='" + email + '\'' + ", senha='" + senha + '\'' + ", nomeUsuario='" + login + '\'' + '}';
@@ -118,9 +124,7 @@ public class Usuario implements UsuarioDAO {
 
     @Override
     public Usuario insereUsuario(Usuario usuario) throws SQLException, ClassNotFoundException {
-
-        factory = Persistence.createEntityManagerFactory("usuario");
-        manager = factory.createEntityManager();
+        iniciaManager();
 
         manager.getTransaction().begin();
         manager.persist(usuario);
@@ -128,8 +132,8 @@ public class Usuario implements UsuarioDAO {
 
         System.out.println("ID do usuario: " + usuario.getId());
 
-        UsuarioPapelDAO usuarioPapelDAO = new UsuarioPapelDAOMySQL();
-        usuarioPapelDAO.inserePapelUsuario(usuario.getId());
+        UsuarioPapelJPA usuarioPapelJPA = new UsuarioPapelDAOMySQL();
+        usuarioPapelJPA.inserePapelUsuario(usuario.getId());
 
         manager.close();
 
@@ -138,26 +142,29 @@ public class Usuario implements UsuarioDAO {
 
     @Override
     public Usuario achaUsuarioPorId(Long id) throws SQLException {
-        return manager.find(Usuario.class, new Long(id));
+        iniciaManager();
+
+        return manager.find(Usuario.class, id);
     }
 
     @Override
     public Usuario achaUsuarioPorLogin(String login) throws SQLException, ClassNotFoundException {
-        PapelDAO papelDAO = new PapelDAOMySQL();
-        UsuarioPapelDAO usuarioPapelDAO = new UsuarioPapelDAOMySQL();
+        iniciaManager();
+
+        PapelJPA papelJPA = new PapelDAOMySQL();
+        UsuarioPapelJPA usuarioPapelJPA = new UsuarioPapelDAOMySQL();
         List<Long> idPapeis = new ArrayList<>();
         List<Papel> papeis = new ArrayList<>();
 
-        Query query = manager
-                .createQuery("select u from Usuario as u "+
-                        "where u.login = :paramFinalizado");
-        query.setParameter("paramFinalizado", login);
+        Query query = manager.createQuery("SELECT u FROM Usuario AS u " + "WHERE u.login LIKE :paramLogin");
+        query.setParameter("paramLogin", login);
 
         Usuario achado = (Usuario) query.getSingleResult();
+        System.out.println(achado.toString());
 
-        idPapeis = usuarioPapelDAO.achaPorUsuario(achado);
+        idPapeis = usuarioPapelJPA.achaPorUsuario(achado);
         for(Long idPapel: idPapeis){
-            papeis.add(papelDAO.achaPorId(idPapel));
+            papeis.add(papelJPA.achaPorId(idPapel));
         }
 
         achado.setPapeis(papeis);
@@ -169,21 +176,21 @@ public class Usuario implements UsuarioDAO {
 
     @Override
     public Usuario achaUsuarioPorNome(String name) throws SQLException, ClassNotFoundException {
-        PapelDAO papelDAO = new PapelDAOMySQL();
-        UsuarioPapelDAO usuarioPapelDAO = new UsuarioPapelDAOMySQL();
+        iniciaManager();
+
+        PapelJPA papelJPA = new PapelDAOMySQL();
+        UsuarioPapelJPA usuarioPapelJPA = new UsuarioPapelDAOMySQL();
         List<Long> idPapeis = new ArrayList<>();
         List<Papel> papeis = new ArrayList<>();
 
-        Query query = manager
-                .createQuery("select u from Usuario as u "+
-                        "where u.nome = :paramFinalizado");
+        Query query = manager.createQuery("select u from Usuario as u " + "where u.nome = :paramFinalizado");
         query.setParameter("paramFinalizado", name);
 
         Usuario achado = (Usuario) query.getSingleResult();
 
-        idPapeis = usuarioPapelDAO.achaPorUsuario(achado);
-        for(Long idPapel: idPapeis){
-            papeis.add(papelDAO.achaPorId(idPapel));
+        idPapeis = usuarioPapelJPA.achaPorUsuario(achado);
+        for (Long idPapel : idPapeis) {
+            papeis.add(papelJPA.achaPorId(idPapel));
         }
 
         achado.setPapeis(papeis);
@@ -195,16 +202,16 @@ public class Usuario implements UsuarioDAO {
 
     @Override
     public List<Usuario> achaTodos() {
+        iniciaManager();
 
-        List<Usuario> lista = manager
-                .createQuery("select '*' from Usuario")
-                .getResultList();
+        List<Usuario> lista = manager.createQuery("select '*' from Usuario").getResultList();
 
         return lista;
     }
 
     @Override
     public Usuario atualizaUsuario(Usuario usuarioNovo) {
+        iniciaManager();
 
         manager.getTransaction().begin();
         manager.merge(usuarioNovo);
@@ -213,8 +220,21 @@ public class Usuario implements UsuarioDAO {
         return usuarioNovo;
     }
 
+    public Usuario atualizaUsuarioDesacoplado(Long id) {
+        iniciaManager();
+
+        Usuario u2 = manager.find(Usuario.class, id);
+        manager.detach(u2); // desacopla
+        manager.getTransaction();
+        manager.merge(u2); // acopla
+        manager.getTransaction().commit();
+
+        return u2;
+    }
+
     @Override
     public boolean deletaUsuarioPorId(Long id) throws SQLException {
+        iniciaManager();
 
         Usuario encontrado = achaUsuarioPorId(id);
 
@@ -227,10 +247,12 @@ public class Usuario implements UsuarioDAO {
 
     @Override
     public boolean verificaUsuario(Usuario usuario) throws SQLException {
+        iniciaManager();
+
         boolean tem = true;
         Usuario auxiliar = achaUsuarioPorId(usuario.getId());
 
-        if(auxiliar == null || !auxiliar.getLogin().equals(usuario.getLogin())){
+        if (auxiliar == null || !auxiliar.getLogin().equals(usuario.getLogin())) {
             tem = false;
         }
 
@@ -239,15 +261,18 @@ public class Usuario implements UsuarioDAO {
 
     @Override
     public void mostraTodos(List<Usuario> listaUsuarios) {
+        iniciaManager();
 
     }
 
     @Override
     public List<String> achaTodosLogin() {
+        iniciaManager();
+
         List<Usuario> todosUsuarios = achaTodos();
         List<String> todosLogin = new ArrayList<>();
 
-        for(Usuario usuario : todosUsuarios){
+        for (Usuario usuario : todosUsuarios) {
             todosLogin.add(usuario.getLogin());
         }
 
@@ -256,11 +281,13 @@ public class Usuario implements UsuarioDAO {
 
     @Override
     public boolean verificaLogin(String login) {
+        iniciaManager();
+
         List<String> todosLogin = achaTodosLogin();
         boolean tem = false;
 
-        for(String loginAchado : todosLogin){
-            if(loginAchado.equals(login)){
+        for (String loginAchado : todosLogin) {
+            if (loginAchado.equals(login)) {
                 tem = true;
             }
         }

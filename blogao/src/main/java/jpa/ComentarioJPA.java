@@ -1,12 +1,11 @@
-package dao.api;
+package jpa;
 
 import modelo.Comentario;
-import modelo.Usuario;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface ComentarioDAO {
+public interface ComentarioJPA {
     public Comentario insereComentario(Comentario comentario) throws SQLException, ClassNotFoundException;
 
     public Comentario achaComentarioPorId(Long id) throws SQLException;

@@ -11,7 +11,8 @@
 <html>
 <head>
     <title>Página Inicial</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/estiloHome.css">
+    <link rel="stylesheet" type="text/css" href="/css/estiloHome.css">
+    <meta CHARSET="UTF-8">
 </head>
 
 <body>

@@ -18,8 +18,8 @@
     <%if (usuario == null) {%>
     <nav class="nav">
         <div class="acesso">
-            <a href="/jsp/login.jsp">ENTRAR</a>
-            <a href="/jsp/cadastro.jsp">CADASTRAR-SE</a>
+            <a href="login">ENTRAR</a>
+            <a href="cadastrar">CADASTRAR-SE</a>
             <a>VISITANTE</a>
         </div>
     </nav>
@@ -27,8 +27,8 @@
     <nav class="nav">
         <div class="acesso">
             <a href="escrever.jsp">ESCREVER</a>
-            <a href="/jsp/login.jsp">ENTRAR</a>
-            <a href="/jsp/cadastro.jsp">CADASTRAR-SE</a>
+            <a href="login">GERENCIAR</a>
+            <a href="cadastrar">CADASTRAR-SE</a>
             <a><%= usuario.getNome()%></a>
         </div>
         <%}%>

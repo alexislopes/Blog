@@ -1,11 +1,11 @@
-package dao.api;
+package jpa;
 
 import modelo.Usuario;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface UsuarioDAO {
+public interface UsuarioJPA {
     public Usuario insereUsuario(Usuario usuario) throws SQLException, ClassNotFoundException;
 
     public Usuario achaUsuarioPorId(Long id) throws SQLException;

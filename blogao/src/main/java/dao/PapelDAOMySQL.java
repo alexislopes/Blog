@@ -1,13 +1,13 @@
-package dao.core;
+package dao;
 
-import dao.api.PapelDAO;
+import jpa.PapelJPA;
 import modelo.EnumPapeis;
 import modelo.Papel;
 
 import java.sql.*;
 import java.util.List;
 
-public class PapelDAOMySQL implements PapelDAO {
+public class PapelDAOMySQL implements PapelJPA {
 
     private Connection conexao;
 

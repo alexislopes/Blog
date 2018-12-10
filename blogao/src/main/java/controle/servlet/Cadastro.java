@@ -1,7 +1,6 @@
 package controle.servlet;
 
-import controle.api.ServicoUsuario;
-import controle.servico.ServicoUsuarioImplementado;
+import jpa.UsuarioJPA;
 import modelo.Usuario;
 
 import javax.servlet.ServletContext;
@@ -14,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "Cadastro")
+@WebServlet(name = "Cadastro", urlPatterns = {"cadastro"}, loadOnStartup = 1)
 public class Cadastro extends HttpServlet {
 
 
@@ -30,9 +29,9 @@ public class Cadastro extends HttpServlet {
 
         Usuario novoUsuario = new Usuario(usuario, email, senha, login);
 
-        ServicoUsuario servicoUsuario = new ServicoUsuarioImplementado();
+        UsuarioJPA servicoUsuario = new Usuario();
 
-        if(novoUsuario.verificaLogin(login)){
+        //if(novoUsuario.verificaLogin(login)){
             try {
                 servicoUsuario.insereUsuario(novoUsuario);
             } catch (SQLException e) {
@@ -42,10 +41,10 @@ public class Cadastro extends HttpServlet {
             }
 
             sc.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-        } else {
+        //} else {
             retorno = "Usuário ja cadastrado.";
             request.setAttribute("retorno", retorno );
-        }
+        //}
 
 
     }

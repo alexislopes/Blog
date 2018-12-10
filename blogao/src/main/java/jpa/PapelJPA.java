@@ -1,11 +1,11 @@
-package dao.api;
+package jpa;
 
 import modelo.Papel;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface PapelDAO {
+public interface PapelJPA {
     public Papel inserirPapel(Papel papel) throws SQLException;
     public Papel achaPorId(Long id) throws SQLException;
     public Papel achaPorDescricao(String descricao);

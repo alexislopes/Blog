@@ -1,6 +1,6 @@
 package modelo;
 
-import dao.api.ComentarioDAO;
+import jpa.ComentarioJPA;
 
 import javax.persistence.*;
 import java.sql.SQLException;
@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 
 @Entity
-public class Comentario implements ComentarioDAO {
+public class Comentario implements ComentarioJPA {
 
     @Id
     @GeneratedValue
