@@ -6,6 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
+          <factory-entry name="postagem" />
           <factory-entry name="usuario" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/../../blogao/src/main/resources/META-INF/persistence.xml" />
@@ -23,6 +24,9 @@
     </facet>
     <facet type="web" name="Web Gradle : blogao-1.0-SNAPSHOT.war">
       <configuration>
+        <descriptors>
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/../../blogao/src/main/webapp/WEB-INF/web.xml" />
+        </descriptors>
         <webroots>
           <root url="file://C:\Users\alexi\Desktop\Laboratório de Engenharia de Software\BlogaoG\blogao\src\main\webapp" relative="/" />
         </webroots>

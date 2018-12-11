@@ -1,0 +1,19 @@
+
+CHANGE LOG 2nd COMMIT:
+    • Adicionado gradle.
+    • Corrigido o erro java.lang.NullPointerException ao recuperar usuarios do banco.
+    └ Os atributos EntityManager e EntityManagerFactory não estavam inicializados.
+    • Corrigido o erro org.apache.jasper.JasperException: java.lang.NullPointerException ao direcinar á página home.jsp
+    └ Havia um comando que tentava recuperar um atributo null da classe usuario (papeis).
+    • Criado interface de contrato de acesso a dados para as postagens.
+    • Criado classe para postagens
+    • Criado métodos de acesso a dados para postagens.
+
+CHANGE LOG 3nd COMMIT:
+    • Criado classe de testes para usuario.
+    • Criado interface de testes para usuario.
+    • Criado classe de testes para postagem.
+    • Criado interface de testes para postagem.
+    • Criado interface para escrever postagem.
+    • Criado servlet para salvar postagem.
+    • Postagens são listadas na pagina principal

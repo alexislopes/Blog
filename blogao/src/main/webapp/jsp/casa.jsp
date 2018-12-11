@@ -1,4 +1,6 @@
-<%--
+<%@ page import="jpa.PostagemJPA" %>
+<%@ page import="modelo.Postagem" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: alexis
   Date: 06/10/2018
@@ -8,6 +10,11 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="cabecalho.jsp"%>
+<%
+    String parecer = (String) request.getAttribute("parecer");
+    PostagemJPA postagem = new Postagem();
+    List<Postagem> postagens = postagem.achaTodas();
+%>
 <html>
 <head>
     <title>Página Inicial</title>
@@ -20,7 +27,7 @@
 <% if(usuario != null) { %>
 
 <div class="conteudo">
-    <p>Olá usuário <%= usuario.getNome() %></p>
+    <p>Olá, <%= usuario.getNome() %></p>
     <p>Seu e-mail cadastrado é: <%= usuario.getEmail() %></p>
     <p>Sua senha cadastrada é: <%= usuario.getSenha() %> </p>
     <p>Você tem privilégios de: </p>
@@ -33,11 +40,15 @@
 
 <%}%>
 
-<div class="postagem">
-    <div id="box">
-        <img src="../imgs/bolo-de-cenoura.jpg">
-        <a id="postagem" href="../posts/boloDeCenoura.jsp"> Bolo de Cenoura </a>
-    </div>
+<div id="postagens">
+    <%for(Postagem postagem1 : postagens){ %>
+        <div id=<%=postagem1.getId()%>, class="postagem">
+            <h3><a><%=postagem1.getTitulo()%></a></h3>
+            <h5><%=postagem1.getData()%></h5>
+        </div>
+    <%}%>
 </div>
+
+
 </body>
 </html>

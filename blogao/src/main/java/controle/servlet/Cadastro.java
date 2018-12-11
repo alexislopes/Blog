@@ -20,8 +20,6 @@ public class Cadastro extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext sc = request.getServletContext();
 
-        String retorno;
-
         String usuario = request.getParameter("nomeUsuario");
         String senha = request.getParameter("senha");
         String login = request.getParameter("apelidoUsuario");
@@ -31,20 +29,16 @@ public class Cadastro extends HttpServlet {
 
         UsuarioJPA servicoUsuario = new Usuario();
 
-        //if(novoUsuario.verificaLogin(login)){
-            try {
-                servicoUsuario.insereUsuario(novoUsuario);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+        // verificar se já existe login com: if(novoUsuario.verificaLogin(login)){
+        try {
+            servicoUsuario.insereUsuario(novoUsuario);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-            sc.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-        //} else {
-            retorno = "Usuário ja cadastrado.";
-            request.setAttribute("retorno", retorno );
-        //}
+        sc.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
 
 
     }

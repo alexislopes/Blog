@@ -8,11 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "Start", urlPatterns = {"/", "paginainicial"})
-public class Start extends HttpServlet {
-
+@WebServlet(name = "Escrever", urlPatterns = {"escrever"}, loadOnStartup = 1)
+public class Escrever extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext sc = request.getServletContext();
-        sc.getRequestDispatcher("/jsp/casa.jsp").forward(request, response);
+        sc.getRequestDispatcher("/jsp/escrever.jsp").forward(request, response);
     }
 }

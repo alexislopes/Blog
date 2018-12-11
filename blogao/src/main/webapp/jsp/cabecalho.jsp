@@ -9,7 +9,7 @@
 <%@page import="modelo.Papel" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%Usuario usuario = (Usuario) request.getAttribute("usuarioLogado");%>
-<head>
+
     <link rel="stylesheet" type="text/css" href="../css/estiloCabecalho.css">
 </head>
 
@@ -26,8 +26,8 @@
     <%} else {%>
     <nav class="nav">
         <div class="acesso">
-            <a href="escrever.jsp">ESCREVER</a>
-            <a href="login">GERENCIAR</a>
+            <a href="escrever">ESCREVER</a>
+            <a href="gerenciar">GERENCIAR</a>
             <a href="cadastrar">CADASTRAR-SE</a>
             <a><%= usuario.getNome()%></a>
         </div>
@@ -35,6 +35,8 @@
     </nav>
 
 </header>
+
+
 
 </body>
 </html>

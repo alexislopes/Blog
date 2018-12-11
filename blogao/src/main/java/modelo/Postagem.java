@@ -148,9 +148,8 @@ public class Postagem implements PostagemJPA {
     @Override
     public List<Postagem> achaTodas() {
         iniciaManager();
-
-        List<Postagem> lista = manager.createQuery("select '*' from Postagem ").getResultList();
-
+        Query query = manager.createQuery("select p from Postagem p");
+        List<Postagem> lista = query.getResultList();
         return lista;
     }
 
@@ -195,6 +194,5 @@ public class Postagem implements PostagemJPA {
     @Override
     public void mostraTodas(List<Postagem> listaPostagem) {
         iniciaManager();
-
     }
 }

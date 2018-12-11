@@ -203,10 +203,7 @@ public class Usuario implements UsuarioJPA {
     @Override
     public List<Usuario> achaTodos() {
         iniciaManager();
-
-        List<Usuario> lista = manager.createQuery("select '*' from Usuario").getResultList();
-
-        return lista;
+        return manager.createQuery("select u from Usuario u").getResultList();
     }
 
     @Override
