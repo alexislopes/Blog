@@ -112,30 +112,26 @@ public class Comentario implements ComentarioJPA {
     }
 
     @Override
-    public Comentario achaComentarioPorUsuario(Long idUsuario) throws SQLException, ClassNotFoundException {
+    public List<Comentario> achaComentarioPorUsuario(Long idUsuario) throws SQLException, ClassNotFoundException {
         iniciaManager();
 
-        Query query = manager.createQuery("SELECT c FROM Comentario AS c " + "WHERE 'c.usuario' LIKE :paramLogin");
+        Query query = manager.createQuery("SELECT c FROM Comentario AS c WHERE c.usuario = :paramLogin");
         query.setParameter("paramLogin", idUsuario);
 
-        Comentario achado = (Comentario) query.getSingleResult();
-        System.out.println(achado.toString());
-
+        List<Comentario> achado = (List<Comentario>) query.getResultList();
         System.out.println(achado.toString());
 
         return achado;
     }
 
     @Override
-    public Comentario achaComentarioPorPost(Long idPost) {
+    public List<Comentario> achaComentarioPorPost(Long idPost) {
         iniciaManager();
 
-        Query query = manager.createQuery("SELECT c FROM Comentario AS c " + "WHERE 'c.postagem' LIKE :paramLogin");
+        Query query = manager.createQuery("SELECT c FROM Comentario AS c WHERE c.postagem = :paramLogin");
         query.setParameter("paramLogin", idPost);
 
-        Comentario achado = (Comentario) query.getSingleResult();
-        System.out.println(achado.toString());
-
+        List<Comentario> achado = (List<Comentario>) query.getResultList();
         System.out.println(achado.toString());
 
         return achado;

@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -35,7 +36,8 @@ public class Validador extends HttpServlet {
 
 
             if (achado != null && achado.getSenha().equals(senha) && achado.getLogin().equals(nomeUsuario)) {
-                request.setAttribute("usuarioLogado", achado);
+                HttpSession sessao = request.getSession(true);
+                sessao.setAttribute("usuarioLogado", achado);
                 doGet(request, response);
             } else {
                 request.setAttribute("falhaAutenticação", true);
@@ -53,9 +55,9 @@ public class Validador extends HttpServlet {
 
     }
 
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ServletContext sc = req.getServletContext();
-        sc.getRequestDispatcher("/jsp/casa.jsp").forward(req, resp);
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ServletContext sc = request.getServletContext();
+        sc.getRequestDispatcher("/jsp/casa.jsp").forward(request, response);
 
     }
 }

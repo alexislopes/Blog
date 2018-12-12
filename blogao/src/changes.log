@@ -20,4 +20,10 @@ CHANGE LOG 3rd COMMIT:
 
 CHANGE LOG 4th COMMIT:
     • Agora é possivel visualizar os posts.
-    • Adicionado suposte para comentários em posts.
+    • Adicionado suporte para comentários em posts.
+
+CHANGE LOG 5th COMMIT:
+    • Corrigido erro ao listar comentarios quando o post era aberto.
+    └ atributo comentario da classe Postagem não era inicializado no método de busca de posts.
+    • Adicionado suposte a sessões.
+    • Agora é possível comentar postagens quando logado.

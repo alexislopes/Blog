@@ -10,9 +10,9 @@ public interface ComentarioJPA {
 
     public Comentario achaComentarioPorId(Long id) throws SQLException;
 
-    public Comentario achaComentarioPorUsuario(Long idUsuario) throws SQLException, ClassNotFoundException;
+    public List <Comentario> achaComentarioPorUsuario(Long idUsuario) throws SQLException, ClassNotFoundException;
 
-    public Comentario achaComentarioPorPost(Long idPost);
+    public List<Comentario> achaComentarioPorPost(Long idPost);
 
     public List<Comentario> achaTodos();
 
@@ -23,5 +23,7 @@ public interface ComentarioJPA {
     public boolean verificaComentario(Comentario comentario) throws SQLException;
 
     public void mostraTodos(List<Comentario> listaComentarios);
+
+
 
 }

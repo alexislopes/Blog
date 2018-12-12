@@ -1,5 +1,6 @@
 package jpa;
 
+import modelo.Comentario;
 import modelo.Postagem;
 
 import java.sql.SQLException;
@@ -23,4 +24,5 @@ public interface PostagemJPA {
     public boolean verificaPostagem(Postagem postagem) throws SQLException;
 
     public void mostraTodas(List<Postagem> listaPostagem);
+    List<Comentario> achaComentarios(Postagem postagem);
 }

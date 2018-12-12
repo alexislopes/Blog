@@ -8,7 +8,9 @@
 <%@page import="modelo.Usuario" %>
 <%@page import="modelo.Papel" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%Usuario usuario = (Usuario) request.getAttribute("usuarioLogado");%>
+<%
+    Usuario usuario = (Usuario) session.getAttribute("usuarioLogado");
+%>
 
     <link rel="stylesheet" type="text/css" href="../css/estiloCabecalho.css">
 </head>

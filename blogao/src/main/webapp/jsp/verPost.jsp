@@ -1,18 +1,25 @@
 <%@ page import="javafx.geometry.Pos" %>
-<%@ page import="modelo.*" %><%--
+<%@ page import="modelo.*" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: alexi
   Date: 11/12/2018
   Time: 13:59
   To change this template use File | Settings | File Templates.
 --%>
+<%@include file="cabecalho.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Postagem postagem = (Postagem) request.getAttribute("postagem");
+    List<Comentario> comentarios = postagem.getComentarios();
+    session.setAttribute("postagem", postagem);
+    if(usuario == null){
+        usuario = new Usuario();
+    }
 
 %>
 
-<%@include file="cabecalho.jsp" %>
+
 <html>
 <head>
     <title>Postagem</title>
@@ -30,12 +37,12 @@
 
 <div>
     <h1>Comentários</h1>
-    <%if (usuario != null) {%>
+    <%if (usuario.getId() != null) {%>
     <form action="comentar" method="post">
 
         <label class="formLabel">
             Nome:
-            <input name="nomeUsuario" value=<%=usuario.getNome()%>, type="text" required>
+            <input name="nomeUsuario" disabled value=<%=usuario.getNome()%>, type="text" required>
         </label>
 
         <label class="formLabel">
@@ -50,31 +57,27 @@
         <label class="formLabel">
             <input name="idPostagem" hidden value=<%=postagem.getId()%>>
         </label>
-
+        <input type="submit" value="Comentar" class="submitButton">
 
     </form>
     <%}%>
 </div>
 
-<%
-    if (!postagem.getComentarios().isEmpty()) {
-        for (Comentario comentario : postagem.getComentarios()) {
-%>
-<div id="comentario">
-    <label id="autor">
-        <h2><%=usuario.achaUsuarioPorId(comentario.getUsuario())%>
-        </h2>
-        <label id="conteudo">
-            <h3><%=comentario.getConteudo()%>
-            </h3>
-        </label>
-        <h4><%=comentario.getData()%>
-        </h4>
-    </label>
-</div>
-<%}%>
+<%if(!comentarios.isEmpty()) {
+    for(Comentario comentario : comentarios) {%>
+        <div id="comentario">
+            <div id="autor">
+                <h4><%=usuario.achaUsuarioPorId(comentario.getUsuario()).getNome()%></h4>
+                <div id="conteudo">
+                    <h3><%=comentario.getConteudo()%></h3>
+                </div>
+                <h6><%=comentario.getData()%></h6>
+            </div>
+        </div>
+
+    <%}%>
 <%} else { %>
-<h2>Não há comentários para esta psotagem</h2>
+<h1>Lista de comentários vazia!</h1>
 <%}%>
 
 </body>

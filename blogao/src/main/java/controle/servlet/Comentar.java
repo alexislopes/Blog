@@ -1,6 +1,7 @@
 package controle.servlet;
 
 import modelo.Comentario;
+import modelo.Postagem;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -21,7 +23,7 @@ public class Comentar extends HttpServlet {
         String parecer = null;
 
         String nomeUsuario = request.getParameter("nomeUsuario");
-        String cometario = request.getParameter("comentairo");
+        String cometario = request.getParameter("comentario");
         Long idPostagem = Long.parseLong(request.getParameter("idPostagem"));
         Long idUsuario = Long.parseLong(request.getParameter("idUsuario"));
 
@@ -39,6 +41,9 @@ public class Comentar extends HttpServlet {
         }
 
         request.setAttribute("parecer", parecer);
-        sc.getRequestDispatcher("/jsp/verPost.jsp").forward(request, response);
+        HttpSession sessao = request.getSession();
+        request.setAttribute("postagem", sessao.getAttribute("postagem"));
+        //sc.getRequestDispatcher("/jsp/verPost.jsp").forward(request, response);
+        response.sendRedirect("mostrarpostagem");
     }
 }

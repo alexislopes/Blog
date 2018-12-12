@@ -25,7 +25,7 @@ public class PostagemTest implements PostagemJPATest {
     @Test
     @Override
     public void achaPostagemPorIdTest() throws SQLException {
-        System.out.println(postagem.achaPostagemPorId(41L).toString());
+
     }
 
     @Test
@@ -43,12 +43,7 @@ public class PostagemTest implements PostagemJPATest {
     @Test
     @Override
     public void achaTodasTest() {
-        List<Postagem> postagens = new ArrayList<Postagem>();
-        postagens = postagem.achaTodas();
-        System.out.println(postagens.isEmpty());
-        for (Postagem postagem : postagens){
-            System.out.println(postagem.toString());
-        }
+
     }
 
     @Test

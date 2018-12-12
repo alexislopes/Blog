@@ -28,8 +28,8 @@ public class Postagem implements PostagemJPA {
     private EntityManager manager;
 
 
-
-    public Postagem() {}
+    public Postagem() {
+    }
 
     public Postagem(String titulo, String texto, String data) {
         this.titulo = titulo;
@@ -89,7 +89,7 @@ public class Postagem implements PostagemJPA {
         return "Postagem{" + "id=" + id + ", titulo='" + titulo + '\'' + ", texto='" + texto + '\'' + ", data=" + data + '}';
     }
 
-    public void iniciaManager(){
+    public void iniciaManager() {
         this.factory = Persistence.createEntityManagerFactory("postagem");
         this.manager = factory.createEntityManager();
     }
@@ -112,7 +112,9 @@ public class Postagem implements PostagemJPA {
     @Override
     public Postagem achaPostagemPorId(Long id) throws SQLException {
         iniciaManager();
-        return manager.find(Postagem.class, id);
+        Postagem postagem = manager.find(Postagem.class, id);
+        postagem.setComentarios((ArrayList<Comentario>) achaComentarios(postagem));
+        return postagem;
     }
 
     @Override
@@ -123,9 +125,9 @@ public class Postagem implements PostagemJPA {
         query.setParameter("paramLogin", titulo);
 
         Postagem achado = (Postagem) query.getSingleResult();
+        achado.setComentarios((ArrayList<Comentario>) achaComentarios(achado));
         System.out.println(achado.toString());
 
-        System.out.println(achado.toString());
 
         return achado;
     }
@@ -138,8 +140,7 @@ public class Postagem implements PostagemJPA {
         query.setParameter("paramLogin", data);
 
         Postagem achado = (Postagem) query.getSingleResult();
-        System.out.println(achado.toString());
-
+        achado.setComentarios((ArrayList<Comentario>) achaComentarios(achado));
         System.out.println(achado.toString());
 
         return achado;
@@ -150,6 +151,9 @@ public class Postagem implements PostagemJPA {
         iniciaManager();
         Query query = manager.createQuery("select p from Postagem p");
         List<Postagem> lista = query.getResultList();
+        for(Postagem postagem : lista){
+            postagem.setComentarios((ArrayList<Comentario>) achaComentarios(postagem));
+        }
         return lista;
     }
 
@@ -194,5 +198,12 @@ public class Postagem implements PostagemJPA {
     @Override
     public void mostraTodas(List<Postagem> listaPostagem) {
         iniciaManager();
+    }
+
+    @Override
+    public List<Comentario> achaComentarios(Postagem postagem) {
+        Comentario comentario = new Comentario();
+        ArrayList<Comentario> comentarios = (ArrayList<Comentario>) comentario.achaComentarioPorPost(postagem.getId());
+        return comentarios;
     }
 }
