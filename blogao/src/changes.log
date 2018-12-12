@@ -9,7 +9,7 @@ CHANGE LOG 2nd COMMIT:
     • Criado classe para postagens
     • Criado métodos de acesso a dados para postagens.
 
-CHANGE LOG 3nd COMMIT:
+CHANGE LOG 3rd COMMIT:
     • Criado classe de testes para usuario.
     • Criado interface de testes para usuario.
     • Criado classe de testes para postagem.
@@ -17,3 +17,7 @@ CHANGE LOG 3nd COMMIT:
     • Criado interface para escrever postagem.
     • Criado servlet para salvar postagem.
     • Postagens são listadas na pagina principal
+
+CHANGE LOG 4th COMMIT:
+    • Agora é possivel visualizar os posts.
+    • Adicionado suposte para comentários em posts.

@@ -11,6 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="cabecalho.jsp"%>
 <%
+
     String parecer = (String) request.getAttribute("parecer");
     PostagemJPA postagem = new Postagem();
     List<Postagem> postagens = postagem.achaTodas();
@@ -41,11 +42,15 @@
 <%}%>
 
 <div id="postagens">
-    <%for(Postagem postagem1 : postagens){ %>
-        <div id=<%=postagem1.getId()%>, class="postagem">
-            <h3><a><%=postagem1.getTitulo()%></a></h3>
+    <%for(Postagem postagem1 : postagens){
+        String caminho = "mostrapostagem?postId=" + postagem1.getId();
+    %>
+        <form id=<%=postagem1.getId()%>, class="postagem" action="mostrapostagem" method="post">
+            <h3><%=postagem1.getTitulo()%></h3>
             <h5><%=postagem1.getData()%></h5>
-        </div>
+            <input name="postId" hidden value=<%=postagem1.getId()%>>
+            <input value="ver mais" id="btnVerMais" type="submit">
+        </form>
     <%}%>
 </div>
 

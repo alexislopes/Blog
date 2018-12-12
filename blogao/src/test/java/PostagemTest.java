@@ -25,7 +25,7 @@ public class PostagemTest implements PostagemJPATest {
     @Test
     @Override
     public void achaPostagemPorIdTest() throws SQLException {
-
+        System.out.println(postagem.achaPostagemPorId(41L).toString());
     }
 
     @Test
