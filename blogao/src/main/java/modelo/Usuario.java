@@ -1,5 +1,6 @@
 package modelo;
 
+import controle.servlet.Comentar;
 import jpa.PapelJPA;
 import jpa.UsuarioJPA;
 import jpa.UsuarioPapelJPA;
@@ -131,11 +132,13 @@ public class Usuario implements UsuarioJPA {
         manager.getTransaction().commit();
 
         System.out.println("ID do usuario: " + usuario.getId());
+        manager.close();
 
-        UsuarioPapelJPA usuarioPapelJPA = new UsuarioPapelDAOMySQL();
+
+        UsuarioPapelJPA usuarioPapelJPA = new UsuarioPapel();
         usuarioPapelJPA.inserePapelUsuario(usuario.getId());
 
-        manager.close();
+
 
         return usuario;
     }
@@ -152,7 +155,7 @@ public class Usuario implements UsuarioJPA {
         iniciaManager();
 
         PapelJPA papelJPA = new PapelDAOMySQL();
-        UsuarioPapelJPA usuarioPapelJPA = new UsuarioPapelDAOMySQL();
+        UsuarioPapelJPA usuarioPapelJPA = new UsuarioPapel();
         List<Long> idPapeis = new ArrayList<>();
         List<Papel> papeis = new ArrayList<>();
 
@@ -179,7 +182,7 @@ public class Usuario implements UsuarioJPA {
         iniciaManager();
 
         PapelJPA papelJPA = new PapelDAOMySQL();
-        UsuarioPapelJPA usuarioPapelJPA = new UsuarioPapelDAOMySQL();
+        UsuarioPapelJPA usuarioPapelJPA = new UsuarioPapel();
         List<Long> idPapeis = new ArrayList<>();
         List<Papel> papeis = new ArrayList<>();
 
@@ -238,6 +241,9 @@ public class Usuario implements UsuarioJPA {
         manager.getTransaction().begin();
         manager.remove(encontrado);
         manager.getTransaction().commit();
+
+        Comentario comentario = new Comentario();
+        comentario.deletaComentariosDeUsuario(id);
 
         return verificaUsuario(encontrado);
     }

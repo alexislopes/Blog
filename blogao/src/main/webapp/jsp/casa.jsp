@@ -26,7 +26,7 @@
 
 <% if(usuario != null) { %>
 
-<div class="conteudo">
+<div hidden class="conteudo">
     <p>Olá, <%= usuario.getNome() %></p>
     <p>Seu e-mail cadastrado é: <%= usuario.getEmail() %></p>
     <p>Sua senha cadastrada é: <%= usuario.getSenha() %> </p>

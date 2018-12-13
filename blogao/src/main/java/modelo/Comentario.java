@@ -1,5 +1,6 @@
 package modelo;
 
+import controle.servlet.Comentar;
 import dao.PapelDAOMySQL;
 import dao.UsuarioPapelDAOMySQL;
 import jpa.ComentarioJPA;
@@ -165,6 +166,25 @@ public class Comentario implements ComentarioJPA {
         manager.getTransaction().commit();
 
         return verificaComentario(encontrado);
+    }
+
+    @Override
+    public boolean deletaComentariosDeUsuario(Long idUsuario) throws SQLException {
+
+        List<Comentario> comentarios = achaTodos();
+        List<Comentario> comentariosDoUsuario = new ArrayList<>();
+
+        for(Comentario comentario : comentarios){
+            if(comentario.getUsuario() == idUsuario){
+                comentariosDoUsuario.add(comentario);
+            }
+        }
+
+        for(Comentario comentario : comentariosDoUsuario){
+            deletaComentarioPorId(comentario.getId());
+        }
+
+        return true;
     }
 
     @Override

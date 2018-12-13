@@ -6,23 +6,25 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ComentarioJPA {
-    public Comentario insereComentario(Comentario comentario) throws SQLException, ClassNotFoundException;
+    Comentario insereComentario(Comentario comentario) throws SQLException, ClassNotFoundException;
 
-    public Comentario achaComentarioPorId(Long id) throws SQLException;
+    Comentario achaComentarioPorId(Long id) throws SQLException;
 
-    public List <Comentario> achaComentarioPorUsuario(Long idUsuario) throws SQLException, ClassNotFoundException;
+    List <Comentario> achaComentarioPorUsuario(Long idUsuario) throws SQLException, ClassNotFoundException;
 
-    public List<Comentario> achaComentarioPorPost(Long idPost);
+    List<Comentario> achaComentarioPorPost(Long idPost);
 
-    public List<Comentario> achaTodos();
+    List<Comentario> achaTodos();
 
-    public Comentario atualizaUsuario(Comentario novoComentario);
+    Comentario atualizaUsuario(Comentario novoComentario);
 
-    public boolean deletaComentarioPorId(Long id) throws SQLException;
+    boolean deletaComentarioPorId(Long id) throws SQLException;
 
-    public boolean verificaComentario(Comentario comentario) throws SQLException;
+    boolean deletaComentariosDeUsuario(Long idUsuario) throws SQLException;
 
-    public void mostraTodos(List<Comentario> listaComentarios);
+    boolean verificaComentario(Comentario comentario) throws SQLException;
+
+    void mostraTodos(List<Comentario> listaComentarios);
 
 
 

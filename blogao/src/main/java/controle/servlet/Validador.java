@@ -57,7 +57,7 @@ public class Validador extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext sc = request.getServletContext();
-        sc.getRequestDispatcher("/jsp/casa.jsp").forward(request, response);
-
+        //sc.getRequestDispatcher("/jsp/casa.jsp").forward(request, response);
+        response.sendRedirect("paginainicial");
     }
 }

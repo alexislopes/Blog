@@ -42,8 +42,11 @@ public class Comentar extends HttpServlet {
 
         request.setAttribute("parecer", parecer);
         HttpSession sessao = request.getSession();
-        request.setAttribute("postagem", sessao.getAttribute("postagem"));
+        Postagem postagem = (Postagem) sessao.getAttribute("postagem");
+        request.setAttribute("postagem", postagem);
+
         //sc.getRequestDispatcher("/jsp/verPost.jsp").forward(request, response);
+        request.setAttribute("postId", postagem.getId());
         response.sendRedirect("mostrarpostagem");
     }
 }
