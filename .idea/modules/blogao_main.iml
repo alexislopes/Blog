@@ -9,6 +9,7 @@
           <factory-entry name="comentario" />
           <factory-entry name="postagem" />
           <factory-entry name="usuario" />
+          <factory-entry name="usuariopapel" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/../../blogao/src/main/resources/META-INF/persistence.xml" />
       </configuration>

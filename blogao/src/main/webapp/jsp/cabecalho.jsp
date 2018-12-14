@@ -25,7 +25,6 @@
     }
 %>
 
-    <link rel="stylesheet" type="text/css" href="/css/estiloCabecalho.css">
 </head>
 
 <header>
@@ -46,18 +45,56 @@
             <a href="escrever">ESCREVER</a>
             <a href="gerenciar">GERENCIAR</a>
             <a href="sair">SAIR</a>
-            <a><%= usuario.getNome()%></a>
+            <a><%= usuario.getNome().toUpperCase()%></a>
         </div>
         <%} else {%> <!-- logado como USUARIO CADASTRADO -->
         <nav class="nav">
             <div class="acesso">
                 <a href="paginainicial">CASA</a>
-                <a href="perfil">PERFIL</a>
                 <a href="sair">SAIR</a>
-                <a><%= usuario.getNome()%></a>
+                <a><%= usuario.getNome().toUpperCase()%></a>
             </div>
             <%}%>
     </nav>
+
+
+        <style>
+            @font-face {
+                font-family: RobotoBold;
+                src: url("../fonts/RobotoCondensed-Bold.ttf");
+            }
+
+            body{
+                padding: 0;
+                margin: 0;
+            }
+
+            a{
+                color: white;
+                margin: 0 50px 50px 0;
+            }
+
+            .nav {
+                font-family: RobotoBold;
+                display: block;
+                background-color: black;
+                width: 100%;
+                height: 3em;
+                padding: 0;
+                margin: 0;
+            }
+
+            a{
+                text-decoration: none;
+            }
+
+            .acesso{
+                font-size: 17px;
+                display: inline-block;
+                margin: 1.7em 0 0 5em;
+
+            }
+        </style>
 
 </header>
 

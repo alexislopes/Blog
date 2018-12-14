@@ -6,13 +6,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface UsuarioJPA {
-    public Usuario insereUsuario(Usuario usuario) throws SQLException, ClassNotFoundException;
+    public Usuario insereUsuario(Usuario usuario) throws ClassNotFoundException, SQLException;
 
     public Usuario achaUsuarioPorId(Long id) throws SQLException;
 
-    public Usuario achaUsuarioPorLogin(String login) throws SQLException, ClassNotFoundException;
+    public Usuario achaUsuarioPorLogin(String login) throws ClassNotFoundException, SQLException;
 
-    public Usuario achaUsuarioPorNome(String name) throws SQLException, ClassNotFoundException;
+    public Usuario achaUsuarioPorNome(String name) throws  ClassNotFoundException, SQLException;
 
     public List<Usuario> achaTodos();
 

@@ -124,7 +124,7 @@ public class Usuario implements UsuarioJPA {
     }
 
     @Override
-    public Usuario insereUsuario(Usuario usuario) throws SQLException, ClassNotFoundException {
+    public Usuario insereUsuario(Usuario usuario) throws ClassNotFoundException, SQLException {
         iniciaManager();
 
         manager.getTransaction().begin();
@@ -144,7 +144,7 @@ public class Usuario implements UsuarioJPA {
     }
 
     @Override
-    public Usuario achaUsuarioPorId(Long id) throws SQLException {
+    public Usuario achaUsuarioPorId(Long id) {
         iniciaManager();
 
         return manager.find(Usuario.class, id);
@@ -249,7 +249,7 @@ public class Usuario implements UsuarioJPA {
     }
 
     @Override
-    public boolean verificaUsuario(Usuario usuario) throws SQLException {
+    public boolean verificaUsuario(Usuario usuario) {
         iniciaManager();
 
         boolean tem = true;

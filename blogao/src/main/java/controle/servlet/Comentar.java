@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @WebServlet(name = "Comentar", urlPatterns = {"comentar"}, loadOnStartup = 1)
@@ -19,6 +20,7 @@ public class Comentar extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext sc = request.getServletContext();
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         String parecer = null;
 
@@ -27,7 +29,7 @@ public class Comentar extends HttpServlet {
         Long idPostagem = Long.parseLong(request.getParameter("idPostagem"));
         Long idUsuario = Long.parseLong(request.getParameter("idUsuario"));
 
-        Comentario comentario = new Comentario(idUsuario, idPostagem, cometario, new Date().toString() );
+        Comentario comentario = new Comentario(idUsuario, idPostagem, cometario, fmt.format(new Date()));
 
         try {
             comentario.insereComentario(comentario);

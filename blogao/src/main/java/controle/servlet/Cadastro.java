@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "Cadastro", urlPatterns = {"cadastro"}, loadOnStartup = 1)
 public class Cadastro extends HttpServlet {
@@ -30,16 +31,21 @@ public class Cadastro extends HttpServlet {
         UsuarioJPA servicoUsuario = new Usuario();
 
         // verificar se já existe login com: if(novoUsuario.verificaLogin(login)){
-        try {
-            servicoUsuario.insereUsuario(novoUsuario);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        List<String> logins = servicoUsuario.achaTodosLogin();
+
+        if (logins.contains(login)) {
+            response.sendRedirect("login");
+        } else {
+            try {
+                servicoUsuario.insereUsuario(novoUsuario);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            response.sendRedirect("paginainicial");
         }
-
-        sc.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
-
 
     }
 

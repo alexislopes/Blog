@@ -6,6 +6,7 @@ package controle.servlet;
 import jpa.UsuarioJPA;
 import modelo.Usuario;
 
+import javax.persistence.NoResultException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "Validador", urlPatterns = {"validador"}, loadOnStartup = 1)
 public class Validador extends HttpServlet {
@@ -29,31 +31,35 @@ public class Validador extends HttpServlet {
         String senha = request.getParameter("senha");
         UsuarioJPA servicoUsuario = new Usuario();
 
-        Usuario achado;
-        try {
 
-            achado = servicoUsuario.achaUsuarioPorLogin(nomeUsuario);
+            Usuario achado;
+            try {
+
+                achado = servicoUsuario.achaUsuarioPorLogin(nomeUsuario);
 
 
-            if (achado != null && achado.getSenha().equals(senha) && achado.getLogin().equals(nomeUsuario)) {
-                HttpSession sessao = request.getSession(true);
-                sessao.setAttribute("usuarioLogado", achado);
-                doGet(request, response);
-            } else {
-                request.setAttribute("falhaAutenticação", true);
-                sc.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
+                if (achado != null && achado.getSenha().equals(senha) && achado.getLogin().equals(nomeUsuario)) {
+                    HttpSession sessao = request.getSession(true);
+                    sessao.setAttribute("usuarioLogado", achado);
+                    doGet(request, response);
+                } else {
+                    request.setAttribute("falhaAutenticação", true);
+                    response.sendRedirect("login");
+                }
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException ei) {
+                ei.printStackTrace();
+            } catch (NoResultException nre) {
+                response.sendRedirect("login");
             }
 
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
 
 
 
-    }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext sc = request.getServletContext();

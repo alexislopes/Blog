@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @WebServlet(name = "Postar", urlPatterns = {"postar"}, loadOnStartup = 1)
@@ -21,11 +22,12 @@ public class Postar extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext sc = request.getServletContext();
         String parecer = null;
+        SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         String titulo = request.getParameter("titulo");
         String texto = request.getParameter("texto");
 
-        Postagem novaPostagem = new Postagem(titulo, texto, new Date().toString());
+        Postagem novaPostagem = new Postagem(titulo, texto, fmt.format(new Date()));
 
         PostagemJPA servicoPostagem = new Postagem();
 

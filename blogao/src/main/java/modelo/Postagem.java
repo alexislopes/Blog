@@ -4,7 +4,10 @@ import jpa.PostagemJPA;
 
 import javax.persistence.*;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -205,5 +208,9 @@ public class Postagem implements PostagemJPA {
         Comentario comentario = new Comentario();
         ArrayList<Comentario> comentarios = (ArrayList<Comentario>) comentario.achaComentarioPorPost(postagem.getId());
         return comentarios;
+    }
+
+    public String getDataDiaMes() {
+        return this.data.substring(0, 5);
     }
 }

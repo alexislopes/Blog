@@ -18,21 +18,18 @@ public class Editar extends HttpServlet {
         ServletContext sc = request.getServletContext();
         HttpSession sessao = request.getSession();
 
-        Long id = Long.parseLong( request.getParameter("usuarioId"));
+        Long id = Long.parseLong(request.getParameter("usuarioId"));
 
 
         Usuario usuario = new Usuario();
 
-        try {
-            usuario = usuario.achaUsuarioPorId(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
+        usuario = usuario.achaUsuarioPorId(id);
+
 
         sessao.setAttribute("usuarioalterar", usuario);
 
         sc.getRequestDispatcher("/jsp/editar.jsp").forward(request, response);
-
 
 
     }
